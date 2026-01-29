@@ -30,13 +30,21 @@ public class OrderService {
     }
 
     public void createOrder(PizzaOrder order) {
-        String type = order.getPizzaType();
-        Double pricePizza = MENU.get(type);
+        
+        Double pricePizza = getPriceFromMenu(order.getPizzaType());
         order.setPrice(pricePizza);
         order.setStatus(OrderStatus.RECEIVED);
         orderRepository.createOrder(order);
     }
-
+    public Double getPriceFromMenu(String typePizza){
+        Double pricePizza = MENU.get(typePizza);
+        if (pricePizza == null) {
+            throw new IllegalArgumentException("Sorry, We do not have that pizza " + typePizza);
+        }else{
+            return pricePizza;
+        }
+        
+    }
     public void deleteOrder(String id) {
         orderRepository.deleteOrder(id);
     }
