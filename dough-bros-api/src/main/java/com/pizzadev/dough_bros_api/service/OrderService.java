@@ -3,51 +3,42 @@ package com.pizzadev.dough_bros_api.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pizzadev.dough_bros_api.model.OrderStatus;
 import com.pizzadev.dough_bros_api.model.PizzaOrder;
+import com.pizzadev.dough_bros_api.repository.OrderRepository;
 
 @Service
 public class OrderService {
 
-    private final List<PizzaOrder> orders = new ArrayList<>();
+    
+    private final OrderRepository orderRepository;
 
-    public OrderService() {
-        createOrder(new PizzaOrder("Perez", "Barbacoa", OrderStatus.RECEIVED, 20.99));
-        createOrder(new PizzaOrder("Antonien", "Chorizo", OrderStatus.RECEIVED, 20.99));
+    public OrderService(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
     }
 
     public List<PizzaOrder> getAllOrders() {
-        return this.orders;
+        return orderRepository.getAllOrders();
     }
 
     public void createOrder(PizzaOrder order) {
-        this.orders.add(order);
+        orderRepository.createOrder(order);
 
     }
 
     public void deleteOrder(String id) {
-        this.orders.removeIf(order -> order.getId().equals(id));
+        orderRepository.deleteOrder(id);
     }
 
     public void updateOrder(String id, PizzaOrder newOrder){
-        PizzaOrder orderFound = findById(id);
-        if (orderFound != null) {
-            orderFound.setCustomerName(newOrder.getCustomerName());
-            orderFound.setPizzaType(newOrder.getPizzaType());
-            orderFound.setPrice(newOrder.getPrice());
-            orderFound.setStatus(newOrder.getStatus());
-        }
+        orderRepository.updateOrder(id, newOrder);
 
     }
 
     public PizzaOrder findById(String id) {
-        for (int i = 0; i < this.orders.size(); i++) {
-            if (orders.get(i).getId().equals(id)) {
-                return orders.get(i);
-            }
-        }
-        return null;
+        return orderRepository.findById(id);
     }
 }
