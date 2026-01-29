@@ -3,6 +3,8 @@ package com.pizzadev.dough_bros_api.service;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,9 @@ public class OrderService {
     }
 
     public void createOrder(PizzaOrder order) {
+        order.setStatus(OrderStatus.RECEIVED);
+        order.setPrice(15.0);
+
         orderRepository.createOrder(order);
 
     }

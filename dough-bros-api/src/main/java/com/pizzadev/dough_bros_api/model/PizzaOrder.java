@@ -2,10 +2,16 @@ package com.pizzadev.dough_bros_api.model;
 
 import java.util.UUID;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class PizzaOrder {
     private String id;
+
+    @NotBlank(message = "Customer name cannot be blank")
     private String customerName;
+    @NotBlank(message = "Pizza type is a must")
     private String pizzaType;
+
     private OrderStatus status;
     private double price;
 
