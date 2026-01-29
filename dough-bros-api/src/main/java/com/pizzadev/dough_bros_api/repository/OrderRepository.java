@@ -30,16 +30,7 @@ public class OrderRepository {
         this.orders.removeIf(order -> order.getId().equals(id));
     }
 
-    public void updateOrder(String id, PizzaOrder newOrder){
-        PizzaOrder orderFound = findById(id);
-        if (orderFound != null) {
-            orderFound.setCustomerName(newOrder.getCustomerName());
-            orderFound.setPizzaType(newOrder.getPizzaType());
-            orderFound.setPrice(newOrder.getPrice());
-            orderFound.setStatus(newOrder.getStatus());
-        }
-
-    }
+    
     public PizzaOrder findById(String id) {
         for (int i = 0; i < this.orders.size(); i++) {
             if (orders.get(i).getId().equals(id)) {
