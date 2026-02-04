@@ -32,6 +32,12 @@ public class OrderController {
         return orderService.getAllOrders();
     }
 
+    @GetMapping("/api/orders/{id}")
+    public PizzaOrder findById(@PathVariable String id) {
+        return orderService.findById(id);
+    }
+    
+
     @PostMapping("/api/orders")
     public PizzaOrder submitOrder(@RequestBody PizzaOrder order) {
         orderService.createOrder(order);

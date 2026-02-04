@@ -3,6 +3,7 @@ package com.pizzadev.dough_bros_api.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,6 +62,11 @@ public class OrderService {
     }
 
     public PizzaOrder findById(String id) {
-        return orderRepository.findById(id);
+        PizzaOrder order = orderRepository.findById(id);
+        if(order == null){
+            throw new NoSuchElementException("We couldnt find the order with ID : " + order.getId());
+
+        }
+        return order;
     }
 }
