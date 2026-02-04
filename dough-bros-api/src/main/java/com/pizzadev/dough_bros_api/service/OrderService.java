@@ -64,7 +64,7 @@ public class OrderService {
     public PizzaOrder findById(String id) {
         PizzaOrder order = orderRepository.findById(id);
         if(order == null){
-            throw new NoSuchElementException("We couldnt find the order with ID : " + order.getId());
+            throw new NoSuchElementException("We couldnt find the order with ID : " + id);
 
         }
         return order;
