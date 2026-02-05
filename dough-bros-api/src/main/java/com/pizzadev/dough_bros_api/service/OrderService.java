@@ -13,6 +13,7 @@ public interface OrderService {
     void delete(String id);
     PizzaOrder findById(String id);
     Double getPriceFromMenu(String typePizza);
+    PizzaOrder statusProgress(String id);
 
 
 }

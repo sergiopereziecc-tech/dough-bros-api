@@ -82,4 +82,11 @@ public class OrderServiceImpl implements OrderService{
         }
 
     }
+    @Override
+    public PizzaOrder statusProgress(String id) {
+        PizzaOrder orderFound = findById(id);
+
+        orderFound.getStatus();
+    }
+
 }
