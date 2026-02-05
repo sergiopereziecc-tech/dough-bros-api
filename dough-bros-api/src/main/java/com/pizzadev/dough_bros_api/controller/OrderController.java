@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pizzadev.dough_bros_api.model.OrderStatus;
 import com.pizzadev.dough_bros_api.model.PizzaOrder;
-import com.pizzadev.dough_bros_api.service.OrderService;
+import com.pizzadev.dough_bros_api.service.OrderServiceImpl;
 
 import jakarta.validation.Valid;
 
@@ -24,9 +24,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RestController
 public class OrderController {
     
-    private final OrderService orderService;
+    private final OrderServiceImpl orderService;
 
-    public OrderController(OrderService orderService){
+    public OrderController(OrderServiceImpl orderService){
         this.orderService = orderService;
     }
 
