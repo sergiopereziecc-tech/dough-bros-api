@@ -2,11 +2,12 @@ package com.pizzadev.dough_bros_api.service;
 
 import java.util.List;
 
+import com.pizzadev.dough_bros_api.dto.OrderRequest;
 import com.pizzadev.dough_bros_api.model.PizzaOrder;
 
 public interface OrderService {
     
-    PizzaOrder create(PizzaOrder order);
+    PizzaOrder create(OrderRequest request);
     List<PizzaOrder> findAll();
     PizzaOrder update(String id, PizzaOrder newOrder);
     void delete(String id);

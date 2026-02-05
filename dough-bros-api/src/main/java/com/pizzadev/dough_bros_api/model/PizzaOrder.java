@@ -2,6 +2,8 @@ package com.pizzadev.dough_bros_api.model;
 
 import java.util.UUID;
 
+import com.pizzadev.dough_bros_api.dto.OrderRequest;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
@@ -27,6 +29,18 @@ public class PizzaOrder {
         this.status = status;
         this.price = price;
         this.quantity = quantity;
+    }
+    public PizzaOrder(OrderRequest request){
+        //Id assign
+        this.id = UUID.randomUUID().toString();
+        //Customer data
+        this.customerName = customerName;
+        this.pizzaType = pizzaType;
+        this.quantity = quantity;
+
+        //Inicial State
+        this.status = status.RECEIVED;
+
     }
 
     //Empty constructor needed to iniliate objetcs before filling them with data

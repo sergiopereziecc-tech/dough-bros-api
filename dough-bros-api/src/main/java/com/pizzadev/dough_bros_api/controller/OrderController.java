@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pizzadev.dough_bros_api.dto.OrderRequest;
 import com.pizzadev.dough_bros_api.model.OrderStatus;
 import com.pizzadev.dough_bros_api.model.PizzaOrder;
 import com.pizzadev.dough_bros_api.service.OrderServiceImpl;
@@ -42,9 +43,9 @@ public class OrderController {
     
 
     @PostMapping("/api/orders")
-    public PizzaOrder submitOrder(@Valid @RequestBody PizzaOrder order) {
-        orderService.create(order);
-        return order;
+    public PizzaOrder submitOrder(@Valid @RequestBody OrderRequest request) {
+        return orderService.create(request);
+        
     }
     
     

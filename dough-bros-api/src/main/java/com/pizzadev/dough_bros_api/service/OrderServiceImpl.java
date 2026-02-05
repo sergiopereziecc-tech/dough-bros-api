@@ -8,6 +8,7 @@ import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pizzadev.dough_bros_api.dto.OrderRequest;
 import com.pizzadev.dough_bros_api.model.OrderStatus;
 import com.pizzadev.dough_bros_api.model.PizzaOrder;
 import com.pizzadev.dough_bros_api.repository.OrderRepository;
@@ -28,13 +29,12 @@ public class OrderServiceImpl implements OrderService{
 
     // C
     @Override
-    public PizzaOrder create(PizzaOrder order) {
-
-        Double pricePizza = getPriceFromMenu(order.getPizzaType());
-        order.setPrice(pricePizza);
-        order.setStatus(OrderStatus.RECEIVED);
-        orderRepository.createOrder(order);
-        return order;
+    public PizzaOrder create(OrderRequest request) {
+        //Constructor generates id, set Initial Status and copy data
+        PizzaOrder newOrder = new PizzaOrder(request);
+        //Calculate price
+        newOrder.setPrice(getPriceFromMenu(request.getPizzaType()) * request.getQuantity());
+        return orderRepository.createOrder(newOrder);
     }
 
     // R
