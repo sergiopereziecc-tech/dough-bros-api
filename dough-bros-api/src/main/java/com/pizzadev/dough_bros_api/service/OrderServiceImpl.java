@@ -19,9 +19,9 @@ public class OrderServiceImpl implements OrderService{
     private final OrderRepository orderRepository;
 
     private static final Map<String, Double> MENU = Map.of(
-            "Margarita", 12.0,
-            "Carbonara", 15.0,
-            "Barbacoa", 18.0);
+            "MARGARITA", 12.0,
+            "CARBONARA", 15.0,
+            "BARBACOA", 18.0);
 
     public OrderServiceImpl(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
