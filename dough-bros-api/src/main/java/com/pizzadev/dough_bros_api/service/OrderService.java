@@ -9,7 +9,7 @@ public interface OrderService {
     
     PizzaOrder create(OrderRequest request);
     List<PizzaOrder> findAll();
-    PizzaOrder update(String id, PizzaOrder newOrder);
+    PizzaOrder update(String id, OrderRequest request);
     void delete(String id);
     PizzaOrder findById(String id);
     Double getPriceFromMenu(String typePizza);

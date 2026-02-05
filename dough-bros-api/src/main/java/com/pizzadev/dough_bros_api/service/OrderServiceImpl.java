@@ -45,15 +45,15 @@ public class OrderServiceImpl implements OrderService{
 
     // U
     @Override
-    public PizzaOrder update(String id, PizzaOrder newOrder) {
+    public PizzaOrder update(String id, OrderRequest request) {
         //If it doenst exist, findById, throws exception
         PizzaOrder orderFound = findById(id);
         
-            orderFound.setCustomerName(newOrder.getCustomerName());
-            orderFound.setPizzaType(newOrder.getPizzaType());
-            orderFound.setQuantity(newOrder.getQuantity());
+            orderFound.setCustomerName(request.getCustomerName());
+            orderFound.setPizzaType(request.getPizzaType());
+            orderFound.setQuantity(request.getQuantity());
 
-            orderFound.setPrice(getPriceFromMenu(newOrder.getPizzaType()) * newOrder.getQuantity());
+            orderFound.setPrice(getPriceFromMenu(request.getPizzaType()) * request.getQuantity());
         
         return orderFound;
     }
