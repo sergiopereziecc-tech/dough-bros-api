@@ -88,15 +88,15 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public PizzaOrder statusProgress(String id) {
         PizzaOrder orderFound = findById(id);
-        OrderStatus currentStatus = orderFound.getStatus()
+        OrderStatus currentStatus = orderFound.getStatus();
         
 
         switch (currentStatus) {
-            case RECEIVED : orderFound.setStatus(OrderStatus.IN_PROGRESS);
-            case IN_PROGRESS : orderFound.setStatus(OrderStatus.READY);
-            case READY : orderFound.setStatus(OrderStatus.DELIVERED);
-            case DELIVERED : throw new IllegalStateException("Pizza delivered, cannot advanced any more");
-            default: throw new IllegalStateException("Status not recognized");
+            case RECEIVED -> orderFound.setStatus(OrderStatus.IN_PROGRESS);
+            case IN_PROGRESS -> orderFound.setStatus(OrderStatus.READY);
+            case READY -> orderFound.setStatus(OrderStatus.DELIVERED);
+            case DELIVERED -> throw new IllegalStateException("Pizza delivered, cannot advanced any more");
+            default -> throw new IllegalStateException("Status not recognized");
         }
 
         return orderFound;

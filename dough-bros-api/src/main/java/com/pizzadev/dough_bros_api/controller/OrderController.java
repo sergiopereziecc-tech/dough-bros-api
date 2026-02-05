@@ -60,7 +60,7 @@ public class OrderController {
         return service.findById(id);
     }
 
-    @PatchMapping("/api/orders/{id}/status")
+    @PatchMapping("/api/orders/{id}/next")
     public PizzaOrder advanceOrder(@PathVariable String id) {
         return service.statusProgress(id);
 
