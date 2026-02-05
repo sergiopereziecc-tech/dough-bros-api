@@ -13,8 +13,8 @@ public class OrderRepository {
     private final List<PizzaOrder> orders = new ArrayList<>();
 
     public OrderRepository() {
-        createOrder(new PizzaOrder("Perez", "Barbacoa", OrderStatus.RECEIVED, 20.99));
-        createOrder(new PizzaOrder("Antonien", "Chorizo", OrderStatus.RECEIVED, 20.99));
+        createOrder(new PizzaOrder("Perez", "Barbacoa", OrderStatus.RECEIVED, 20.99,1));
+        createOrder(new PizzaOrder("Antonien", "Chorizo", OrderStatus.RECEIVED, 20.99,1));
     }
 
     public List<PizzaOrder> getAllOrders() {

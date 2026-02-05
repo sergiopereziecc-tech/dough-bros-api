@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pizzadev.dough_bros_api.model.OrderStatus;
 import com.pizzadev.dough_bros_api.model.PizzaOrder;
 import com.pizzadev.dough_bros_api.service.OrderService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,7 +42,7 @@ public class OrderController {
     
 
     @PostMapping("/api/orders")
-    public PizzaOrder submitOrder(@RequestBody PizzaOrder order) {
+    public PizzaOrder submitOrder(@Valid @RequestBody PizzaOrder order) {
         orderService.createOrder(order);
         return order;
     }
