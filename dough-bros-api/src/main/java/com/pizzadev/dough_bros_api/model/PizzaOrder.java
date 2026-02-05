@@ -34,12 +34,12 @@ public class PizzaOrder {
         //Id assign
         this.id = UUID.randomUUID().toString();
         //Customer data
-        this.customerName = customerName;
-        this.pizzaType = pizzaType;
-        this.quantity = quantity;
+        this.customerName = request.getCustomerName();
+        this.pizzaType = request.getPizzaType();
+        this.quantity = request.getQuantity();
 
         //Inicial State
-        this.status = status.RECEIVED;
+        this.status = OrderStatus.RECEIVED;
 
     }
 
