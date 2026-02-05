@@ -32,7 +32,7 @@ public class OrderController {
 
     @GetMapping("/api/orders")
     public List<PizzaOrder> listAll() {
-        return orderService.getAllOrders();
+        return orderService.findAll();
     }
 
     @GetMapping("/api/orders/{id}")
@@ -43,7 +43,7 @@ public class OrderController {
 
     @PostMapping("/api/orders")
     public PizzaOrder submitOrder(@Valid @RequestBody PizzaOrder order) {
-        orderService.createOrder(order);
+        orderService.create(order);
         return order;
     }
     
@@ -52,12 +52,12 @@ public class OrderController {
     //@PathVariable the id comes from the url
     @DeleteMapping("/api/orders/{id}")
     public void deleteOrder(@PathVariable String id){
-        orderService.deleteOrder(id);
+        orderService.delete(id);
     }
 
     @PutMapping("/api/orders/{id}")
     public PizzaOrder updateOrder(@PathVariable String id, @RequestBody PizzaOrder newOrder) {
-        orderService.updateOrder(id, newOrder);
+        orderService.update(id, newOrder);
         
         return orderService.findById(id);
     }

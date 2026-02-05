@@ -13,7 +13,7 @@ import com.pizzadev.dough_bros_api.model.PizzaOrder;
 import com.pizzadev.dough_bros_api.repository.OrderRepository;
 
 @Service
-public class OrderServiceImpl {
+public class OrderServiceImpl implements OrderService{
 
     private final OrderRepository orderRepository;
 
@@ -27,21 +27,25 @@ public class OrderServiceImpl {
     }
 
     // C
-    public void createOrder(PizzaOrder order) {
+    @Override
+    public PizzaOrder create(PizzaOrder order) {
 
         Double pricePizza = getPriceFromMenu(order.getPizzaType());
         order.setPrice(pricePizza);
         order.setStatus(OrderStatus.RECEIVED);
         orderRepository.createOrder(order);
+        return order;
     }
 
     // R
-    public List<PizzaOrder> getAllOrders() {
+    @Override
+    public List<PizzaOrder> findAll() {
         return orderRepository.getAllOrders();
     }
 
     // U
-    public PizzaOrder updateOrder(String id, PizzaOrder newOrder) {
+    @Override
+    public PizzaOrder update(String id, PizzaOrder newOrder) {
         //If it doenst exist, findById, throws exception
         PizzaOrder orderFound = findById(id);
         
@@ -55,10 +59,11 @@ public class OrderServiceImpl {
     }
 
     // D
-    public void deleteOrder(String id) {
+    @Override
+    public void delete(String id) {
         orderRepository.deleteOrder(id);
     }
-
+    @Override
     public PizzaOrder findById(String id) {
         PizzaOrder order = orderRepository.findById(id);
         if (order == null) {
@@ -67,7 +72,7 @@ public class OrderServiceImpl {
         }
         return order;
     }
-
+    @Override
     public Double getPriceFromMenu(String typePizza) {
         Double pricePizza = MENU.get(typePizza);
         if (pricePizza == null) {

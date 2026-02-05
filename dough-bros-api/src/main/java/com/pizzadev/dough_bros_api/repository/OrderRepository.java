@@ -21,8 +21,9 @@ public class OrderRepository {
         return this.orders;
     }
 
-    public void createOrder(PizzaOrder order) {
-        this.orders.add(order);
+    public PizzaOrder createOrder(PizzaOrder order) {
+         this.orders.add(order);
+         return order;
 
     }
 
