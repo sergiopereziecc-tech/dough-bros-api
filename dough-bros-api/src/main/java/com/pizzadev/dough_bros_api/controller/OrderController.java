@@ -21,15 +21,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
-
-
 @RestController
 public class OrderController {
-    
+
     private final OrderService service;
 
-    public OrderController(OrderService service){
+    public OrderController(OrderService service) {
         this.service = service;
     }
 
@@ -42,34 +39,31 @@ public class OrderController {
     public PizzaOrder findById(@PathVariable String id) {
         return service.findById(id);
     }
-    
 
     @PostMapping("/api/orders")
     public PizzaOrder submitOrder(@Valid @RequestBody OrderRequest request) {
         return service.create(request);
-        
+
     }
-    
-    
-    //{id} dinamic parameter
-    //@PathVariable the id comes from the url
+
+    // {id} dinamic parameter
+    // @PathVariable the id comes from the url
     @DeleteMapping("/api/orders/{id}")
-    public void deleteOrder(@PathVariable String id){
+    public void deleteOrder(@PathVariable String id) {
         service.delete(id);
     }
 
     @PutMapping("/api/orders/{id}")
     public PizzaOrder updateOrder(@PathVariable String id, @RequestBody OrderRequest request) {
         service.update(id, request);
-        
+
         return service.findById(id);
     }
 
     @PatchMapping("/api/orders/{id}/status")
-    public PizzaOrder advanceOrder(@PathVariable String id){
-        
+    public PizzaOrder advanceOrder(@PathVariable String id) {
+        return service.statusProgress(id);
 
     }
-    
 
 }
