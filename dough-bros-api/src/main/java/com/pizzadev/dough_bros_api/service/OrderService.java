@@ -26,30 +26,21 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public List<PizzaOrder> getAllOrders() {
-        return orderRepository.getAllOrders();
-    }
-
+    // C
     public void createOrder(PizzaOrder order) {
-        
+
         Double pricePizza = getPriceFromMenu(order.getPizzaType());
         order.setPrice(pricePizza);
         order.setStatus(OrderStatus.RECEIVED);
         orderRepository.createOrder(order);
     }
-    public Double getPriceFromMenu(String typePizza){
-        Double pricePizza = MENU.get(typePizza);
-        if (pricePizza == null) {
-            throw new IllegalArgumentException("Sorry, We do not have that pizza " + typePizza);
-        }else{
-            return pricePizza;
-        }
-        
-    }
-    public void deleteOrder(String id) {
-        orderRepository.deleteOrder(id);
+
+    // R
+    public List<PizzaOrder> getAllOrders() {
+        return orderRepository.getAllOrders();
     }
 
+    // U
     public void updateOrder(String id, PizzaOrder newOrder) {
         PizzaOrder orderFound = findById(id);
         if (orderFound != null) {
@@ -57,16 +48,31 @@ public class OrderService {
             orderFound.setPizzaType(newOrder.getPizzaType());
             orderFound.setPrice(newOrder.getPrice());
             orderFound.setStatus(newOrder.getStatus());
+            orderFound.setQuantity(newOrder.getQuantity());
         }
+    }
 
+    // D
+    public void deleteOrder(String id) {
+        orderRepository.deleteOrder(id);
     }
 
     public PizzaOrder findById(String id) {
         PizzaOrder order = orderRepository.findById(id);
-        if(order == null){
+        if (order == null) {
             throw new NoSuchElementException("We couldnt find the order with ID : " + id);
 
         }
         return order;
+    }
+
+    public Double getPriceFromMenu(String typePizza) {
+        Double pricePizza = MENU.get(typePizza);
+        if (pricePizza == null) {
+            throw new IllegalArgumentException("Sorry, We do not have that pizza " + typePizza);
+        } else {
+            return pricePizza;
+        }
+
     }
 }
