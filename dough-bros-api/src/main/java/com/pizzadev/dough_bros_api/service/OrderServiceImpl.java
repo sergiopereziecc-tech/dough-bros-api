@@ -14,7 +14,7 @@ import com.pizzadev.dough_bros_api.model.PizzaOrder;
 import com.pizzadev.dough_bros_api.repository.OrderRepository;
 
 @Service
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
 
@@ -30,9 +30,9 @@ public class OrderServiceImpl implements OrderService{
     // C
     @Override
     public PizzaOrder create(OrderRequest request) {
-        //Constructor generates id, set Initial Status and copy data
+        // Constructor generates id, set Initial Status and copy data
         PizzaOrder newOrder = new PizzaOrder(request);
-        //Calculate price
+        // Calculate price
         newOrder.setPrice(getPriceFromMenu(request.getPizzaType()) * request.getQuantity());
         return orderRepository.createOrder(newOrder);
     }
@@ -46,15 +46,15 @@ public class OrderServiceImpl implements OrderService{
     // U
     @Override
     public PizzaOrder update(String id, OrderRequest request) {
-        //If it doenst exist, findById, throws exception
+        // If it doenst exist, findById, throws exception
         PizzaOrder orderFound = findById(id);
-        
-            orderFound.setCustomerName(request.getCustomerName());
-            orderFound.setPizzaType(request.getPizzaType());
-            orderFound.setQuantity(request.getQuantity());
 
-            orderFound.setPrice(getPriceFromMenu(request.getPizzaType()) * request.getQuantity());
-        
+        orderFound.setCustomerName(request.getCustomerName());
+        orderFound.setPizzaType(request.getPizzaType());
+        orderFound.setQuantity(request.getQuantity());
+
+        orderFound.setPrice(getPriceFromMenu(request.getPizzaType()) * request.getQuantity());
+
         return orderFound;
     }
 
@@ -63,6 +63,7 @@ public class OrderServiceImpl implements OrderService{
     public void delete(String id) {
         orderRepository.deleteOrder(id);
     }
+
     @Override
     public PizzaOrder findById(String id) {
         PizzaOrder order = orderRepository.findById(id);
@@ -72,6 +73,7 @@ public class OrderServiceImpl implements OrderService{
         }
         return order;
     }
+
     @Override
     public Double getPriceFromMenu(String typePizza) {
         Double pricePizza = MENU.get(typePizza);
@@ -82,11 +84,23 @@ public class OrderServiceImpl implements OrderService{
         }
 
     }
+
     @Override
     public PizzaOrder statusProgress(String id) {
         PizzaOrder orderFound = findById(id);
+        OrderStatus currentStatus = orderFound.getStatus()
+        
 
-        orderFound.getStatus();
+        switch (currentStatus) {
+            case RECEIVED : orderFound.setStatus(OrderStatus.IN_PROGRESS);
+            case IN_PROGRESS : orderFound.setStatus(OrderStatus.READY);
+            case READY : orderFound.setStatus(OrderStatus.DELIVERED);
+            case DELIVERED : throw new IllegalStateException("Pizza delivered, cannot advanced any more");
+            default: throw new IllegalStateException("Status not recognized");
+        }
+
+        return orderFound;
+
     }
 
 }

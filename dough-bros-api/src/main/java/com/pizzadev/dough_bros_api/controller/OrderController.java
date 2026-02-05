@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pizzadev.dough_bros_api.dto.OrderRequest;
 import com.pizzadev.dough_bros_api.model.OrderStatus;
 import com.pizzadev.dough_bros_api.model.PizzaOrder;
+import com.pizzadev.dough_bros_api.service.OrderService;
 import com.pizzadev.dough_bros_api.service.OrderServiceImpl;
 
 import jakarta.validation.Valid;
@@ -25,26 +27,26 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RestController
 public class OrderController {
     
-    private final OrderServiceImpl orderService;
+    private final OrderService service;
 
-    public OrderController(OrderServiceImpl orderService){
-        this.orderService = orderService;
+    public OrderController(OrderService service){
+        this.service = service;
     }
 
     @GetMapping("/api/orders")
     public List<PizzaOrder> listAll() {
-        return orderService.findAll();
+        return service.findAll();
     }
 
     @GetMapping("/api/orders/{id}")
     public PizzaOrder findById(@PathVariable String id) {
-        return orderService.findById(id);
+        return service.findById(id);
     }
     
 
     @PostMapping("/api/orders")
     public PizzaOrder submitOrder(@Valid @RequestBody OrderRequest request) {
-        return orderService.create(request);
+        return service.create(request);
         
     }
     
@@ -53,14 +55,20 @@ public class OrderController {
     //@PathVariable the id comes from the url
     @DeleteMapping("/api/orders/{id}")
     public void deleteOrder(@PathVariable String id){
-        orderService.delete(id);
+        service.delete(id);
     }
 
     @PutMapping("/api/orders/{id}")
     public PizzaOrder updateOrder(@PathVariable String id, @RequestBody OrderRequest request) {
-        orderService.update(id, request);
+        service.update(id, request);
         
-        return orderService.findById(id);
+        return service.findById(id);
+    }
+
+    @PatchMapping("/api/orders/{id}/status")
+    public PizzaOrder advanceOrder(@PathVariable String id){
+        
+
     }
     
 
