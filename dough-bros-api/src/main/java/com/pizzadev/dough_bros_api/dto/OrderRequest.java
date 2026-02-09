@@ -2,11 +2,12 @@ package com.pizzadev.dough_bros_api.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class OrderRequest {
-
+    @NotNull(message = "Please Introduce the amount: ")
     @Min(value = 1,message = "Minimum 1")
-    private int quantity;
+    private Integer quantity;
     @NotBlank(message = "Please Introduce your name")
     private String customerName;
     @NotBlank(message = "Please introduce your prefered pizza")
@@ -18,7 +19,7 @@ public class OrderRequest {
     }
 
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return this.quantity;
     }
 

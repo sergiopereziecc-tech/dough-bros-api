@@ -82,7 +82,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Double getPriceFromMenu(String typePizza) {
-        Double pricePizza = MENU.get(typePizza);
+        Double pricePizza = MENU.get(typePizza.toUpperCase());
         if (pricePizza == null) {
             throw new IllegalArgumentException("Sorry, We do not have that pizza " + typePizza);
         } else {
