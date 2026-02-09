@@ -32,5 +32,11 @@ public class GlobalExcepcionHandler {
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
 
     }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ErrorMessage> handleStatusValidation(IllegalStateException ex){
+        ErrorMessage errorMessage = new ErrorMessage(ex.getMessage());
+        return new ResponseEntity<>(errorMessage,HttpStatus.BAD_REQUEST);
+    }
     
 }
