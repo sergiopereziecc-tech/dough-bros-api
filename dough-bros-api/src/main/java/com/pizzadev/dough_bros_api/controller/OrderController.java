@@ -54,7 +54,7 @@ public class OrderController {
     }
 
     @PutMapping("/api/orders/{id}")
-    public PizzaOrder updateOrder(@PathVariable String id, @RequestBody OrderRequest request) {
+    public PizzaOrder updateOrder(@PathVariable String id,@Valid @RequestBody OrderRequest request) {
         return service.update(id, request);
 
         
