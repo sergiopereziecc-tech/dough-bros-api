@@ -55,9 +55,9 @@ public class OrderController {
 
     @PutMapping("/api/orders/{id}")
     public PizzaOrder updateOrder(@PathVariable String id, @RequestBody OrderRequest request) {
-        service.update(id, request);
+        return service.update(id, request);
 
-        return service.findById(id);
+        
     }
 
     @PatchMapping("/api/orders/{id}/next")

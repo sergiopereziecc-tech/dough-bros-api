@@ -48,6 +48,8 @@ public class OrderServiceImpl implements OrderService {
     public PizzaOrder update(String id, OrderRequest request) {
         // If it doenst exist, findById, throws exception
         PizzaOrder orderFound = findById(id);
+        if (!orderFound.getStatus().equals(OrderStatus.RECEIVED))
+            throw new IllegalStateException("The order is already in the kitchen or sent. You cannot modify it anymore");
 
         orderFound.setCustomerName(request.getCustomerName());
         orderFound.setPizzaType(request.getPizzaType());
@@ -61,7 +63,11 @@ public class OrderServiceImpl implements OrderService {
     // D
     @Override
     public void delete(String id) {
-        orderRepository.deleteOrder(id);
+        PizzaOrder order = findById(id);
+        if (!order.getStatus().equals(OrderStatus.RECEIVED))
+            throw new IllegalStateException("Order is already in the kitchen or sent out. You cannot cancel it");
+
+        orderRepository.deleteOrder(order.getId());
     }
 
     @Override
@@ -89,7 +95,6 @@ public class OrderServiceImpl implements OrderService {
     public PizzaOrder statusProgress(String id) {
         PizzaOrder orderFound = findById(id);
         OrderStatus currentStatus = orderFound.getStatus();
-        
 
         switch (currentStatus) {
             case RECEIVED -> orderFound.setStatus(OrderStatus.IN_PROGRESS);
