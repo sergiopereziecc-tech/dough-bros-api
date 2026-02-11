@@ -28,9 +28,9 @@ public class PizzaOrder {
     private double price;
 
 
-    //No id parameter, because it is randomly assigned once the order is created
+    
     public PizzaOrder(String customerName, String pizzaType, OrderStatus status, double price, int quantity) {
-        this.id = UUID.randomUUID().toString();
+        
         this.customerName = customerName;
         this.pizzaType = pizzaType;
         this.status = status;
@@ -38,8 +38,6 @@ public class PizzaOrder {
         this.quantity = quantity;
     }
     public PizzaOrder(OrderRequest request){
-        //Id assign
-        this.id = UUID.randomUUID().toString();
         //Customer data
         this.customerName = request.getCustomerName();
         this.pizzaType = request.getPizzaType();
@@ -50,7 +48,7 @@ public class PizzaOrder {
 
     }
 
-    //Empty constructor needed to iniliate objetcs before filling them with data
+    //Empty constructor needed to initiate objetcs before filling them with data
     public PizzaOrder(){
 
     }
