@@ -5,6 +5,8 @@ import java.util.UUID;
 import com.pizzadev.dough_bros_api.dto.OrderRequest;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,7 +24,9 @@ public class PizzaOrder {
     @NotBlank(message = "Pizza type is a must")
     private String pizzaType;
 
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
+
     @Min(value = 1, message = "Minimun quantity is 1")
     private int quantity;
     private double price;
