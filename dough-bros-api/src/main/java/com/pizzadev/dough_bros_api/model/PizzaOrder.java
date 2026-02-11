@@ -4,10 +4,17 @@ import java.util.UUID;
 
 import com.pizzadev.dough_bros_api.dto.OrderRequest;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
+@Entity
 public class PizzaOrder {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @NotBlank(message = "Customer name cannot be blank")
