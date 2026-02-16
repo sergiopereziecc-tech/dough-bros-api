@@ -13,6 +13,9 @@ import com.pizzadev.dough_bros_api.model.OrderStatus;
 import com.pizzadev.dough_bros_api.model.PizzaOrder;
 import com.pizzadev.dough_bros_api.repository.OrderRepository;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -23,10 +26,6 @@ public class OrderServiceImpl implements OrderService {
             "CARBONARA", 15.0,
             "BARBACOA", 18.0);
 
-    public OrderServiceImpl(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
-    }
-
     // C
     @Override
     public PizzaOrder create(OrderRequest request) {
@@ -34,13 +33,13 @@ public class OrderServiceImpl implements OrderService {
         PizzaOrder newOrder = new PizzaOrder(request);
         // Calculate price
         newOrder.setPrice(getPriceFromMenu(request.getPizzaType()) * request.getQuantity());
-        return orderRepository.createOrder(newOrder);
+        return orderRepository.save(newOrder);
     }
 
     // R
     @Override
     public List<PizzaOrder> findAll() {
-        return orderRepository.getAllOrders();
+        return orderRepository.findAll();
     }
 
     // U
@@ -54,7 +53,6 @@ public class OrderServiceImpl implements OrderService {
         orderFound.setCustomerName(request.getCustomerName());
         orderFound.setPizzaType(request.getPizzaType());
         orderFound.setQuantity(request.getQuantity());
-
         orderFound.setPrice(getPriceFromMenu(request.getPizzaType()) * request.getQuantity());
 
         return orderFound;
@@ -67,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
         if (!order.getStatus().equals(OrderStatus.RECEIVED))
             throw new IllegalStateException("Order is already in the kitchen or sent out. You cannot cancel it");
 
-        orderRepository.deleteOrder(order.getId());
+        orderRepository.delete(order.getId());
     }
 
     @Override
