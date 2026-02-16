@@ -12,7 +12,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class PizzaOrder {
     @Id
@@ -31,16 +36,6 @@ public class PizzaOrder {
     private int quantity;
     private double price;
 
-
-    
-    public PizzaOrder(String customerName, String pizzaType, OrderStatus status, double price, int quantity) {
-        
-        this.customerName = customerName;
-        this.pizzaType = pizzaType;
-        this.status = status;
-        this.price = price;
-        this.quantity = quantity;
-    }
     public PizzaOrder(OrderRequest request){
         //Customer data
         this.customerName = request.getCustomerName();
@@ -52,57 +47,6 @@ public class PizzaOrder {
 
     }
 
-    //Empty constructor needed to initiate objetcs before filling them with data
-    public PizzaOrder(){
-
-    }
     
-
-    //No hay setId, no queremos cambios en el ID
-
-    public String getId() {
-        return this.id;
-    }
-
-    public int getQuantity(){
-        return this.quantity;
-    }
-    public void setQuantity(int quantity){
-        this.quantity = quantity;
-    }
-
-    
-
-    public String getCustomerName() {
-        return this.customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public String getPizzaType() {
-        return this.pizzaType;
-    }
-
-    public void setPizzaType(String pizzaType) {
-        this.pizzaType = pizzaType;
-    }
-
-    public OrderStatus getStatus() {
-        return this.status;
-    }
-
-    public void setStatus(OrderStatus status) {
-        this.status = status;
-    }
-
-    public double getPrice() {
-        return this.price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
     
 }
