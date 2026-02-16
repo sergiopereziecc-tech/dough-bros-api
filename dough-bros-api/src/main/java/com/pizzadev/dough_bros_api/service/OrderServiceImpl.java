@@ -45,17 +45,15 @@ public class OrderServiceImpl implements OrderService {
     // U
     @Override
     public PizzaOrder update(String id, OrderRequest request) {
-        // If it doenst exist, findById, throws exception
+        
         PizzaOrder orderFound = findById(id);
         if (!orderFound.getStatus().equals(OrderStatus.RECEIVED))
             throw new IllegalStateException("The order is already in the kitchen or sent. You cannot modify it anymore");
 
-        orderFound.setCustomerName(request.getCustomerName());
-        orderFound.setPizzaType(request.getPizzaType());
-        orderFound.setQuantity(request.getQuantity());
-        orderFound.setPrice(getPriceFromMenu(request.getPizzaType()) * request.getQuantity());
+        double newPrice = getPriceFromMenu(request.getPizzaType()) * request.getQuantity();
+        orderFound.updateFromRequest(request, newPrice);
 
-        return orderFound;
+        return orderRepository.save(orderFound);
     }
 
     // D
@@ -65,17 +63,13 @@ public class OrderServiceImpl implements OrderService {
         if (!order.getStatus().equals(OrderStatus.RECEIVED))
             throw new IllegalStateException("Order is already in the kitchen or sent out. You cannot cancel it");
 
-        orderRepository.delete(order.getId());
+        orderRepository.deleteById(order.getId());
     }
 
     @Override
     public PizzaOrder findById(String id) {
-        PizzaOrder order = orderRepository.findById(id);
-        if (order == null) {
-            throw new NoSuchElementException("We couldnt find the order with ID : " + id);
-
-        }
-        return order;
+        return orderRepository.findById(id)
+            .orElseThrow(()-> new NoSuchElementException("We couldnt find the order with ID : " + id));
     }
 
     @Override

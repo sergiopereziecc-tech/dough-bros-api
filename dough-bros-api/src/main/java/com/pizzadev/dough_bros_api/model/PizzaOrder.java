@@ -47,6 +47,13 @@ public class PizzaOrder {
 
     }
 
+    public void updateFromRequest(OrderRequest request, double newPrice){
+        this.customerName = request.getCustomerName();
+        this.pizzaType = request.getPizzaType();
+        this.quantity = request.getQuantity();
+        this.price = newPrice;
+    }
+
     
     
 }
