@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pizzadev.dough_bros_api.dto.OrderRequest;
+import com.pizzadev.dough_bros_api.model.Customer;
 import com.pizzadev.dough_bros_api.model.OrderStatus;
 import com.pizzadev.dough_bros_api.model.PizzaOrder;
+import com.pizzadev.dough_bros_api.repository.CustomerRepository;
 import com.pizzadev.dough_bros_api.repository.OrderRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final CustomerService customerService;
 
     private static final Map<String, Double> MENU = Map.of(
             "MARGARITA", 12.0,
@@ -33,6 +36,9 @@ public class OrderServiceImpl implements OrderService {
         PizzaOrder newOrder = new PizzaOrder(request);
         // Calculate price
         newOrder.setPrice(getPriceFromMenu(request.getPizzaType()) * request.getQuantity());
+        Customer customerFound = customerService.findById(request.getCustomerId())
+            .orElseThrow(() -> new NoSuchElementException("The customer with Id : " + request.getCustomerId() + "cannot be found in our database"));
+        newOrder.setCustomer(customerFound);
         return orderRepository.save(newOrder);
     }
 
