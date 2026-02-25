@@ -44,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
 
     // U
     @Override
-    public PizzaOrder update(String id, OrderRequest request) {
+    public PizzaOrder update(Long id, OrderRequest request) {
         
         PizzaOrder orderFound = findById(id);
         if (!orderFound.getStatus().equals(OrderStatus.RECEIVED))
@@ -58,7 +58,7 @@ public class OrderServiceImpl implements OrderService {
 
     // D
     @Override
-    public void delete(String id) {
+    public void delete(Long id) {
         PizzaOrder order = findById(id);
         if (!order.getStatus().equals(OrderStatus.RECEIVED))
             throw new IllegalStateException("Order is already in the kitchen or sent out. You cannot cancel it");
@@ -67,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public PizzaOrder findById(String id) {
+    public PizzaOrder findById(Long id) {
         return orderRepository.findById(id)
             .orElseThrow(()-> new NoSuchElementException("We couldnt find the order with ID : " + id));
     }
@@ -84,7 +84,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public PizzaOrder statusProgress(String id) {
+    public PizzaOrder statusProgress(Long id) {
         PizzaOrder orderFound = findById(id);
         OrderStatus currentStatus = orderFound.getStatus();
 

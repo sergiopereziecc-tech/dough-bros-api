@@ -26,7 +26,7 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long customerId;
 
     @NotBlank(message = "Name cannot be blank")
     private String name;

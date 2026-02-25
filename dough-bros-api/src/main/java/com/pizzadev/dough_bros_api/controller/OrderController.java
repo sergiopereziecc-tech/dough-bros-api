@@ -36,7 +36,7 @@ public class OrderController {
     }
 
     @GetMapping("/api/orders/{id}")
-    public PizzaOrder findById(@PathVariable String id) {
+    public PizzaOrder findById(@PathVariable Long id) {
         return service.findById(id);
     }
 
@@ -49,19 +49,19 @@ public class OrderController {
     // {id} dinamic parameter
     // @PathVariable the id comes from the url
     @DeleteMapping("/api/orders/{id}")
-    public void deleteOrder(@PathVariable String id) {
+    public void deleteOrder(@PathVariable Long id) {
         service.delete(id);
     }
 
     @PutMapping("/api/orders/{id}")
-    public PizzaOrder updateOrder(@PathVariable String id,@Valid @RequestBody OrderRequest request) {
+    public PizzaOrder updateOrder(@PathVariable Long id,@Valid @RequestBody OrderRequest request) {
         return service.update(id, request);
 
         
     }
 
     @PatchMapping("/api/orders/{id}/next")
-    public PizzaOrder advanceOrder(@PathVariable String id) {
+    public PizzaOrder advanceOrder(@PathVariable Long id) {
         return service.statusProgress(id);
 
     }

@@ -9,11 +9,11 @@ public interface OrderService {
     
     PizzaOrder create(OrderRequest request);
     List<PizzaOrder> findAll();
-    PizzaOrder update(String id, OrderRequest request);
-    void delete(String id);
-    PizzaOrder findById(String id);
+    PizzaOrder update(Long id, OrderRequest request);
+    void delete(Long id);
+    PizzaOrder findById(Long id);
     Double getPriceFromMenu(String typePizza);
-    PizzaOrder statusProgress(String id);
+    PizzaOrder statusProgress(Long id);
 
 
 }
