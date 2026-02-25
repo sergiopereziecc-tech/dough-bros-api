@@ -11,7 +11,7 @@ import com.pizzadev.dough_bros_api.model.Customer;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long>{
 
-    Optional<Customer> findByEmail(String email);
+    
 
     
 

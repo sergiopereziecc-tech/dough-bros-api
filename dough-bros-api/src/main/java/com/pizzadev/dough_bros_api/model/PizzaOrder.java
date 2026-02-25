@@ -25,7 +25,7 @@ import lombok.*;
 public class PizzaOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long orderId;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)

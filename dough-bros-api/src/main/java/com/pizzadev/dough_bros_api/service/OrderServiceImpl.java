@@ -63,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
         if (!order.getStatus().equals(OrderStatus.RECEIVED))
             throw new IllegalStateException("Order is already in the kitchen or sent out. You cannot cancel it");
 
-        orderRepository.deleteById(order.getId());
+        orderRepository.deleteById(id);
     }
 
     @Override
