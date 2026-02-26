@@ -2,6 +2,8 @@ package com.pizzadev.dough_bros_api.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -31,38 +33,41 @@ public class OrderController {
 
 
     @GetMapping("/api/orders")
-    public List<PizzaOrder> listAll() {
-        return orderService.findAll();
+    public ResponseEntity<List<PizzaOrder>> listAll() {
+        return ResponseEntity.ok(orderService.findAll());
     }
 
     @GetMapping("/api/orders/{id}")
-    public PizzaOrder findById(@PathVariable Long id) {
-        return orderService.findById(id);
+    public ResponseEntity<PizzaOrder> findById(@PathVariable Long id) {
+        return orderService.findById(id).map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
     }
 
     @PostMapping("/api/orders")
-    public PizzaOrder submitOrder(@Valid @RequestBody OrderRequest request) {
-        return orderService.create(request);
+    public ResponseEntity<PizzaOrder> submitOrder(@Valid @RequestBody OrderRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.create(request));
 
     }
 
     // {id} dinamic parameter
     // @PathVariable the id comes from the url
     @DeleteMapping("/api/orders/{id}")
-    public void deleteOrder(@PathVariable Long id) {
-        orderService.delete(id);
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+        return orderService.delete(id).map(order->ResponseEntity.noContent().<Void>build())
+            .orElseGet(()-> ResponseEntity.notFound().build());
+
     }
 
     @PutMapping("/api/orders/{id}")
-    public PizzaOrder updateOrder(@PathVariable Long id,@Valid @RequestBody OrderRequest request) {
-        return orderService.update(id, request);
+    public ResponseEntity<PizzaOrder> updateOrder(@PathVariable Long id,@Valid @RequestBody OrderRequest request) {
+
+        return orderService.update(id, request).map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
 
         
     }
 
     @PatchMapping("/api/orders/{id}/next")
-    public PizzaOrder advanceOrder(@PathVariable Long id) {
-        return orderService.statusProgress(id);
+    public ResponseEntity<PizzaOrder> advanceOrder(@PathVariable Long id) {
+        return orderService.statusProgress(id).map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
 
     }
 
