@@ -25,7 +25,7 @@ import lombok.*;
 public class PizzaOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
@@ -39,7 +39,7 @@ public class PizzaOrder {
     private double price;
 
     public PizzaOrder(OrderRequest request){
-        //Customer data
+        
         
         this.pizzaType = request.getPizzaType();
         this.quantity = request.getQuantity();

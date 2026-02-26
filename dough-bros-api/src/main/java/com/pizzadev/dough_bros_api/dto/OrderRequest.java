@@ -15,7 +15,7 @@ public class OrderRequest {
     @NotNull(message = "Please Introduce the amount: ")
     @Min(value = 1,message = "Minimum 1")
     private Integer quantity;
-    @NotNull(message = "Please Introduce your name")
+    @NotNull
     private Long customerId;
     @NotBlank(message = "Please introduce your prefered pizza")
     private String pizzaType;

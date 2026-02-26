@@ -15,6 +15,7 @@ import com.pizzadev.dough_bros_api.service.OrderService;
 import com.pizzadev.dough_bros_api.service.OrderServiceImpl;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,28 +23,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
+@RequiredArgsConstructor
 @RestController
 public class OrderController {
 
-    private final OrderService service;
+    private final OrderService orderService;
 
-    public OrderController(OrderService service) {
-        this.service = service;
-    }
 
     @GetMapping("/api/orders")
     public List<PizzaOrder> listAll() {
-        return service.findAll();
+        return orderService.findAll();
     }
 
     @GetMapping("/api/orders/{id}")
     public PizzaOrder findById(@PathVariable Long id) {
-        return service.findById(id);
+        return orderService.findById(id);
     }
 
     @PostMapping("/api/orders")
     public PizzaOrder submitOrder(@Valid @RequestBody OrderRequest request) {
-        return service.create(request);
+        return orderService.create(request);
 
     }
 
@@ -51,19 +50,19 @@ public class OrderController {
     // @PathVariable the id comes from the url
     @DeleteMapping("/api/orders/{id}")
     public void deleteOrder(@PathVariable Long id) {
-        service.delete(id);
+        orderService.delete(id);
     }
 
     @PutMapping("/api/orders/{id}")
     public PizzaOrder updateOrder(@PathVariable Long id,@Valid @RequestBody OrderRequest request) {
-        return service.update(id, request);
+        return orderService.update(id, request);
 
         
     }
 
     @PatchMapping("/api/orders/{id}/next")
     public PizzaOrder advanceOrder(@PathVariable Long id) {
-        return service.statusProgress(id);
+        return orderService.statusProgress(id);
 
     }
 
