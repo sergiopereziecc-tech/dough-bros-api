@@ -1,5 +1,7 @@
 package com.pizzadev.dough_bros_api.dto;
 
+import java.util.List;
+
 import com.pizzadev.dough_bros_api.model.Customer;
 
 import jakarta.validation.constraints.Min;
@@ -12,13 +14,14 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderRequest {
-    @NotNull(message = "Please Introduce the amount: ")
-    @Min(value = 1,message = "Minimum 1")
-    private Integer quantity;
+    
+    @NotBlank(message = "The order must have at least one pizza")
+    List<Long> pizzaIds;
+
+    
     @NotNull
     private Long customerId;
-    @NotBlank(message = "Please introduce your prefered pizza")
-    private String pizzaType;
+    
 
 
 }

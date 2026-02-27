@@ -1,5 +1,6 @@
 package com.pizzadev.dough_bros_api.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,10 +27,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final CustomerService customerService;
 
-    private static final Map<String, Double> MENU = Map.of(
-            "MARGARITA", 12.0,
-            "CARBONARA", 15.0,
-            "BARBACOA", 18.0);
+    
 
     // C
     @Override
@@ -37,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
         // Constructor generates id, set Initial Status and copy data
         PizzaOrder newOrder = new PizzaOrder(request);
         // Calculate price
-        newOrder.setPrice(getPriceFromMenu(request.getPizzaType()) * request.getQuantity());
+        //newOrder.setPrice(getPriceFromMenu(request.getPizzaType()) * request.getQuantity());
         Customer customerFound = customerService.findById(request.getCustomerId())
                 .orElseThrow(() -> new NoSuchElementException(
                         "The customer with Id : " + request.getCustomerId() + "cannot be found in our database"));
@@ -58,8 +56,8 @@ public class OrderServiceImpl implements OrderService {
             if (!orderFound.getStatus().equals(OrderStatus.RECEIVED))
                 throw new IllegalStateException(
                         "The order is already in the kitchen or sent. You cannot modify it anymore");
-            double newPrice = getPriceFromMenu(request.getPizzaType()) * request.getQuantity();
-            orderFound.updateFromRequest(request, newPrice);
+            //double newPrice = getPriceFromMenu(request.getPizzaType()) * request.getQuantity();
+            //orderFound.updateFromRequest(request, newPrice);
             return orderRepository.save(orderFound);
         });
 
@@ -82,13 +80,13 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findById(id);
     }
 
-    @Override
-    public Double getPriceFromMenu(String typePizza) {
+    // @Override
+    // public Double getPriceFromMenu(String typePizza) {
 
-        return Optional.ofNullable(MENU.get(typePizza.toUpperCase()))
-            .orElseThrow(()-> new IllegalArgumentException(("Sorry, We do not have that pizza " + typePizza)));
+    //     //return Optional.ofNullable(MENU.get(typePizza.toUpperCase()))
+    //         //.orElseThrow(()-> new IllegalArgumentException(("Sorry, We do not have that pizza " + typePizza)));
 
-    }
+    // }
 
     @Override
     public Optional<PizzaOrder> statusProgress(Long id) {

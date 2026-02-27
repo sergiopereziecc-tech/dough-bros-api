@@ -1,5 +1,6 @@
 package com.pizzadev.dough_bros_api.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -38,7 +39,7 @@ public class Customer {
     private String email;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    List<PizzaOrder> orders;
+    List<PizzaOrder> orders = new ArrayList<>();
 
 
 }
