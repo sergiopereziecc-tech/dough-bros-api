@@ -1,5 +1,6 @@
 package com.pizzadev.dough_bros_api.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,7 +47,7 @@ public class PizzaOrder {
         joinColumns = @JoinColumn(name = "order_id"),
         inverseJoinColumns = @JoinColumn(name = "pizza_id")
     )
-    private List<Pizza> pizzas;
+    private List<Pizza> pizzas = new ArrayList<>();
 
     public PizzaOrder(OrderRequest request){
         
