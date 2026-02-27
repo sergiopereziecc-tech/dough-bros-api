@@ -1,5 +1,6 @@
 package com.pizzadev.dough_bros_api.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -30,18 +31,17 @@ public class PizzaOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+    private BigDecimal totalPrice;
+    
 
+    //Tabla pizza_order
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
-
-    private String pizzaType;
-
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
-    private int quantity;
-    private double price;
-
+    
+    //Tabla order_pizzas
     @ManyToMany
     @JoinTable(name = "order_pizzas",
         joinColumns = @JoinColumn(name = "order_id"),
@@ -49,22 +49,15 @@ public class PizzaOrder {
     )
     private List<Pizza> pizzas = new ArrayList<>();
 
+    
+    
     public PizzaOrder(OrderRequest request){
-        
-        
-        this.pizzaType = request.getPizzaType();
-        this.quantity = request.getQuantity();
-
         //Inicial State
         this.status = OrderStatus.RECEIVED;
-
     }
 
-    public void updateFromRequest(OrderRequest request, double newPrice){
-        
-        this.pizzaType = request.getPizzaType();
-        this.quantity = request.getQuantity();
-        this.price = newPrice;
+    public void updateFromRequest(OrderRequest request, BigDecimal newPrice){
+        this.totalPrice = newPrice;
     }
 
     
