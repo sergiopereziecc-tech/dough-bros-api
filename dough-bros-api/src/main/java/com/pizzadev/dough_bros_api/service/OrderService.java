@@ -13,7 +13,6 @@ public interface OrderService {
     Optional<PizzaOrder> update(Long id, OrderRequest request);
     Optional<PizzaOrder> delete(Long id);
     Optional<PizzaOrder> findById(Long id);
-    Double getPriceFromMenu(String typePizza);
     Optional<PizzaOrder> statusProgress(Long id);
 
 

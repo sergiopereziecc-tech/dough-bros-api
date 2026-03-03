@@ -8,12 +8,15 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.pizzadev.dough_bros_api.dto.OrderRequest;
 import com.pizzadev.dough_bros_api.model.Customer;
 import com.pizzadev.dough_bros_api.model.OrderStatus;
+import com.pizzadev.dough_bros_api.model.Pizza;
 import com.pizzadev.dough_bros_api.model.PizzaOrder;
 import com.pizzadev.dough_bros_api.repository.CustomerRepository;
 import com.pizzadev.dough_bros_api.repository.OrderRepository;
@@ -26,21 +29,21 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final CustomerService customerService;
+    private final PizzaService pizzaService;
 
     
 
     // C
     @Override
     public PizzaOrder create(OrderRequest request) {
-        // Constructor generates id, set Initial Status and copy data
-        PizzaOrder newOrder = new PizzaOrder(request);
-        // Calculate price
-        //newOrder.setPrice(getPriceFromMenu(request.getPizzaType()) * request.getQuantity());
-        Customer customerFound = customerService.findById(request.getCustomerId())
-                .orElseThrow(() -> new NoSuchElementException(
-                        "The customer with Id : " + request.getCustomerId() + "cannot be found in our database"));
-        newOrder.setCustomer(customerFound);
-        return orderRepository.save(newOrder);
+        List<Pizza> pizzas = pizzaService.readPizzas(request.getPizzaIds());
+        BigDecimal total = pizzaService.calculateTotal(request.getPizzaIds(),pizzas);
+
+        PizzaOrder pizzaOrder = new PizzaOrder();
+        pizzaOrder.setPizzas(pizzas);
+        pizzaOrder.setTotalPrice(total);
+        return orderRepository.save(pizzaOrder);
+        
     }
 
     // R
@@ -52,14 +55,15 @@ public class OrderServiceImpl implements OrderService {
     // U
     @Override
     public Optional<PizzaOrder> update(Long id, OrderRequest request) {
-        return orderRepository.findById(id).map(orderFound -> {
-            if (!orderFound.getStatus().equals(OrderStatus.RECEIVED))
-                throw new IllegalStateException(
-                        "The order is already in the kitchen or sent. You cannot modify it anymore");
-            //double newPrice = getPriceFromMenu(request.getPizzaType()) * request.getQuantity();
-            //orderFound.updateFromRequest(request, newPrice);
-            return orderRepository.save(orderFound);
+        return orderRepository.findById(id).map(order -> {
+            List<Pizza> pizzas = pizzaService.readPizzas(request.getPizzaIds());
+            BigDecimal total = pizzaService.calculateTotal(request.getPizzaIds(), pizzas);
+            order.setPizzas(pizzas);
+            order.setTotalPrice(total);
+            return orderRepository.save(order);
         });
+        
+        
 
     }
 
@@ -80,13 +84,6 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findById(id);
     }
 
-    // @Override
-    // public Double getPriceFromMenu(String typePizza) {
-
-    //     //return Optional.ofNullable(MENU.get(typePizza.toUpperCase()))
-    //         //.orElseThrow(()-> new IllegalArgumentException(("Sorry, We do not have that pizza " + typePizza)));
-
-    // }
 
     @Override
     public Optional<PizzaOrder> statusProgress(Long id) {
