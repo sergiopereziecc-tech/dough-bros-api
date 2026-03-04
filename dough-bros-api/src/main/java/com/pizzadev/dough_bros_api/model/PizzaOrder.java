@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pizzadev.dough_bros_api.dto.OrderRequest;
 
 import jakarta.persistence.Column;
@@ -38,11 +40,13 @@ public class PizzaOrder {
     
 
     //Tabla pizza_order
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
     
     //Tabla order_pizzas
+    @JsonBackReference
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "order_pizzas",
         joinColumns = @JoinColumn(name = "order_id"),

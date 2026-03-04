@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/customers")
+@RequestMapping("/api/customers")
 public class CustomerController {
     private final CustomerService customerService;
 
@@ -38,7 +38,7 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.findAll());
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Customer> getCustomer(@PathVariable Long id) {
         return customerService.findById(id)
             .map(customer-> ResponseEntity.ok(customer))
@@ -48,7 +48,7 @@ public class CustomerController {
     @PutMapping("/{id}")
     public ResponseEntity<Customer> update(@PathVariable Long id, @RequestBody Customer customer) {
        return customerService.update(id, customer)
-            .map(client -> ResponseEntity.ok(customer))
+            .map(client -> ResponseEntity.ok(client))
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
 

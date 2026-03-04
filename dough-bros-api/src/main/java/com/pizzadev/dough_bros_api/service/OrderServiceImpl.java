@@ -39,10 +39,15 @@ public class OrderServiceImpl implements OrderService {
         List<Pizza> pizzas = pizzaService.readPizzas(request.getPizzaIds());
         BigDecimal total = pizzaService.calculateTotal(request.getPizzaIds(),pizzas);
 
-        PizzaOrder pizzaOrder = new PizzaOrder();
-        pizzaOrder.setPizzas(pizzas);
-        pizzaOrder.setTotalPrice(total);
-        return orderRepository.save(pizzaOrder);
+        return customerService.findById(request.getCustomerId()).map(customerFound ->{
+            PizzaOrder pizzaOrder = new PizzaOrder();
+            pizzaOrder.setCustomer(customerFound);
+            pizzaOrder.setPizzas(pizzas);
+            pizzaOrder.setTotalPrice(total);
+            return orderRepository.save(pizzaOrder);
+        }).orElseThrow(()-> new RuntimeException("Customer Not Found"));
+
+        
         
     }
 

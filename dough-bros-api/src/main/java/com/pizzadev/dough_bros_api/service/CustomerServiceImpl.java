@@ -38,15 +38,12 @@ public class CustomerServiceImpl implements CustomerService{
     }
     @Override
     public Optional<Customer> update(Long id, Customer customer) {
-        Optional<Customer> customerFound = findById(id);
-        if (customerFound.isPresent()) {
-            Customer existingCustomer = customerFound.get();
-            existingCustomer.setName(customer.getName());
-            existingCustomer.setEmail(customer.getEmail());
-            return Optional.of(customerRepository.save(existingCustomer));
-        }else{
-            return Optional.empty();
-        }
+        return customerRepository.findById(id).map(customerFound -> {
+            customerFound.setName(customer.getName());
+            customerFound.setEmail(customer.getEmail());
+            System.out.println("ID guardado: " + customerFound.getId());
+            return customerRepository.save(customerFound);
+        });
     }
 
     @Override
