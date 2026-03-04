@@ -35,7 +35,7 @@ public class PizzaOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private OrderStatus status = OrderStatus.RECEIVED;
     private BigDecimal totalPrice;
     
 
@@ -55,15 +55,6 @@ public class PizzaOrder {
     private List<Pizza> pizzas = new ArrayList<>();
 
     
-    
-    public PizzaOrder(OrderRequest request){
-        //Inicial State
-        this.status = OrderStatus.RECEIVED;
-    }
-
-    public void updateFromRequest(OrderRequest request, BigDecimal newPrice){
-        this.totalPrice = newPrice;
-    }
 
     
     
