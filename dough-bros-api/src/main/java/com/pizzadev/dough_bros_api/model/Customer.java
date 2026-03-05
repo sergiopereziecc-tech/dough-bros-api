@@ -3,6 +3,7 @@ package com.pizzadev.dough_bros_api.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -41,7 +42,7 @@ public class Customer {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @JsonManagedReference
+    @JsonBackReference
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     List<PizzaOrder> orders = new ArrayList<>();
 

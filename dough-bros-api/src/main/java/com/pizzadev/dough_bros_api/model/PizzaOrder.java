@@ -7,8 +7,10 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pizzadev.dough_bros_api.dto.OrderRequest;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -31,22 +33,27 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 public class PizzaOrder {
+    @Schema(example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Schema(description = "Different Status for the order")
     @Enumerated(EnumType.STRING)
     private OrderStatus status = OrderStatus.RECEIVED;
+
+    @Schema(description = "No IVA applied")
     private BigDecimal totalPrice;
     
 
     //Tabla pizza_order
-    @JsonIgnore
+    
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
     
     //Tabla order_pizzas
-    @JsonBackReference
+    @JsonManagedReference
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "order_pizzas",
         joinColumns = @JoinColumn(name = "order_id"),
